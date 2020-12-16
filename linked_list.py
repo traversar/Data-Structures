@@ -4,11 +4,11 @@ class LinkedList:
         self.length = 0 if head == None else 1
 
     def print_list(self):
-            current = self.head
-            while current:
-                print (current.data, " -> ", end = '')
-                current = current.next
-            print("")
+        current = self.head
+        while current:
+            print(current.data, " -> ", end = '')
+            current = current.next
+        print("")
 
     def insert_head(self, data):
         new_node = Node(data)
@@ -22,9 +22,11 @@ class LinkedList:
         current = self.head
         if index == 0:
             return self.insert_head(data)
-        elif index == -1:
-            index = self.length - 1
-        elif index > self.length or index < -1:
+        elif index < 0:
+            # Handle negative indices as counting from end of list
+            index = self.length + index
+        elif index > self.length or index < 0:
+            # Index out of bounds
             return False
         while index-1 > 0:
             current = current.next
@@ -35,26 +37,43 @@ class LinkedList:
         self.length += 1
         return self.length
 
+    def append(self, value):
+        pass
+
+    # Remove value at index
+    def remove(self, index):
+        pass
 
     # Remove specified node
-    def remove(self, node):
+    def destroy(self, node):
+        if self.head == None:
+            return False
         current = self.head
+        if current == node:
+            self.head = current.next
+            self.length -= 1
+            return self.length
         while current:
             if current.next == node:
-                current.next, current.next.next = current.next.next, None
+                current.next = current.next.next
                 self.length -= 1
                 return self.length
+            current = current.next
         return False
 
 
     # Remove first node with specified data value
     def delete(self, data):
+        if self.head == None:
+            return False
         current = self.head
         if current.data == data:
-            self.head, self.head.next = current.next, None
+            self.head = current.next
+            self.length -= 1
+            return self.length
         while current:
             if current.next.data == data:
-                current.next, current.next.next = current.next.next, None
+                current.next = current.next.next
                 self.length -= 1
                 return self.length
         return False
