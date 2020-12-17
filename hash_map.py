@@ -3,18 +3,26 @@ class HashTable:
     # Create empty bucket list of given size
     def __init__(self, size):
         self.size = size
-        self.hash_table =   [[] for _ in range(size)]
+        self.hash_table = [[] for _ in range(size)]
 
-    def has(self, val):
-        pass
+    def get_hash(self, key):
+        return hash(key) % self.size
+
+    def has(self, key):
+        hashed_key = self.get_hash(key)
+        bucket = self.hash_table[hashed_key]
+        for record in bucket:
+            if record[0] == key:
+                return True
+        return False
 
     # Insert value into hash map
     def add(self, key, val):
 
-        # Get the index from key
-        hashed_key = hash(key) % self.size
+        # Get index from key
+        hashed_key = self.get_hash(key)
 
-        # Get the bucket corresponding to index
+        # Get bucket corresponding to index
         bucket = self.hash_table[hashed_key]
 
         key_found = False
@@ -35,13 +43,13 @@ class HashTable:
     def get(self, key):
 
         # Get index from key
-        hashed_key = hash(key) % self.size
+        hashed_key = self.get_hash(key)
 
         # Get bucket corresponding to index
         bucket = self.hash_table[hashed_key]
 
         key_found = False
-        for index, record in enumerate(bucket):
+        for record in bucket:
 
             # Check if bucket contains key
             if record[0] == key:
@@ -59,7 +67,7 @@ class HashTable:
 
         # Get the index from the key using
         # hash function
-        hashed_key = hash(key) % self.size
+        hashed_key = self.get_hash(key)
 
         # Get the bucket corresponding to index
         bucket = self.hash_table[hashed_key]
