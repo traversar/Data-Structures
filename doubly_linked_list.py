@@ -26,6 +26,28 @@ class DoublyLinkedList:
         self.length += 1
         return self
 
+    def delete(self, data):
+        curr = None
+        if self.head.data == data:
+            self.head = self.head.next
+            self.head.prev = None
+        elif self.tail.data == data:
+            self.tail = self.tail.prev
+            self.tail.next = None
+        else:
+            curr = self.head.next
+            while curr != None:
+                if curr.data == data:
+                    curr.prev.next = curr.next
+                    curr.next.prev = curr.prev
+                    break
+                curr = curr.next
+        if curr == None:
+            return False
+        self.length -= 1
+        return self
+
+
     def remove(self, index):
         # Check if index out of range
         if index >= self.length or index < self.length - (self.length * 2):
